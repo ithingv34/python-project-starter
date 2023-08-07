@@ -3,7 +3,6 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, Path, status
 from httpx import Response
 
-# app
 app: FastAPI = FastAPI()
 
 

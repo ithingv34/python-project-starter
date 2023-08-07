@@ -19,7 +19,7 @@ jobs:
           ref: ${{ github.head_ref }}
       # install poetry
       - name: Install poetry
-        run: pipx install poetry==1.2.0
+        run: pipx install poetry==1.5.1
       # set-up python with cache
       - name: Setup Python 3.10
         uses: actions/setup-python@v4
@@ -28,7 +28,7 @@ jobs:
           cache: 'poetry'
       # install requirements (including dev dependencies)
       - name: Install requirements
-        run: poetry install --only lint
+        run: poetry install --with lint
       # run linters
       - name: Run linters
         run: |
