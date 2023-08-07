@@ -1,20 +1,18 @@
-# .editorconfig
-
 # Check http://editorconfig.org for more information
-# top-most .editorconfig file
+# This is the main config file for this project:
 root = true
-# Unix-style newlines with a newline ending every file
+
 [*]
-end_of_line = lf
-insert_final_newline = true
 charset = utf-8
 trim_trailing_whitespace = true
+end_of_line = lf
 indent_style = space
+insert_final_newline = true
+indent_size = 2
+
 [*.py]
 indent_size = 4
+
 [Makefile]
 indent_style = tab
-[*.md]
-trim_trailing_whitespace = false
-[*.{yaml,yml}]
-indent_size = 2
+indent_size = 4
