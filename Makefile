@@ -34,11 +34,11 @@ lint-mypy-report: # run mypy & create report
 lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
 unit-tests:
-	@pytest
+	@pytest --doctest-modules
 unit-tests-cov:
-	@pytest --cov=src --cov-report term-missing --cov-report=html
+	@pytest --doctest-modules --cache-clear --cov=src --cov-report term-missing --cov-report=html
 unit-tests-cov-fail:
-	@pytest --cov=src --cov-report term-missing --cov-report=html --cov-fail-under=80 --junitxml=pytest.xml | tee pytest-coverage.txt
+	@pytest --doctest-modules --cache-clear --cov=src --cov-report term-missing --cov-report=html --cov-fail-under=80 --junitxml=pytest.xml | tee pytest-coverage.txt
 clean-cov:
 	@rm -rf .coverage
 	@rm -rf htmlcov
@@ -47,8 +47,11 @@ clean-cov:
 
 
 ##@ Documentation
-docs-build: ## build documentation locally
+docs-build: create_openapi ## build documentation locally
 	@mkdocs build
+
+create_openapi: ## create openapi.json
+	@python3 scripts/create_openapi_json.py
 
 docs-deploy: ## build & deploy documentation to "gh-pages" branch
 	@mkdocs gh-deploy -m "docs: update documentation" -v --force
