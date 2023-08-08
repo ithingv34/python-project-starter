@@ -22,6 +22,13 @@ black = "^23.7.0"
 flake8 = "^6.1.0"
 mypy = "^1.4.1"
 
+
+[tool.poetry.group.test.dependencies]
+respx = "^0.20.2"
+pytest-asyncio = "^0.21.1"
+trio = "^0.22.2"
+pytest-cov = "^4.1.0"
+
 [tool.isort]
 profile = "black"
 
@@ -49,6 +56,15 @@ warn_return_any = false
 warn_unreachable = true
 # Misc
 pretty = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider" # deactivating pytest caching.
+
+[tool.coverage.report]
+exclude_lines = [
+    'if __name__ == "__main__":'
+]
 
 [build-system]
 requires = ["poetry-core"]
