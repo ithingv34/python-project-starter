@@ -12,3 +12,4 @@ and consists of four separate parts:
 2. [How-To Guides](how-to-guides.md)
 3. [Reference](reference.md)
 4. [Explanation](explanation.md)
+5. [Test](test.md)
