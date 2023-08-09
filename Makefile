@@ -4,6 +4,10 @@
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+
+# Import Environment
+include .env
+
 ##@ Formatters
 
 format-black: ## run black (code formatter)
@@ -75,3 +79,27 @@ next-changelog: ## returns the next changelog
 
 publish-noop: ## publish command (no-operation mode)
 	@semantic-release publish --noop
+
+# Container Build
+
+build: ## docker build
+	@docker build --file Dockerfile --tag $(DOCKER_IMAGE_NAME):latest --target production .
+
+run: ## docker run app
+	@docker run -p $(APP_PORT):80 -it --rm project:latest
+
+run-bash: ## docker run with bash
+	@docker run -it --rm $(DOCKER_IMAGE_NAME):latest /bin/bash
+
+login: ## login to ghcr.io using a personal access token (PAT)
+	@if [ -z "$(CR_PAT)" ]; then\
+		echo "Personal Access Token for Ghcr is not set";\
+	else\
+		echo $(CR_PAT) | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin;\
+	fi
+
+tag: ## tag docker image to ghcr.io/johschmidt42/project:latest
+	@docker tag $(DOCKER_IMAGE_NAME):latest ghcr.io/${GITHUB_USERNAME}/$(DOCKER_IMAGE_NAME):latest
+
+push: tag ## docker push to container registry (ghcr.io)
+	@docker push ghcr.io/${GITHUB_USERNAME}/$(DOCKER_IMAGE_NAME):latest
